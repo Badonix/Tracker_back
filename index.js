@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 const userRoutes = require("./routes/user.js");
+const trackingRoutes = require("./routes/tracking.js");
 const app = express();
 
 app.use(cors());
@@ -14,6 +15,7 @@ let MONGO_URI = process.env.DB_URL.replace(
 ).replace("<password>", process.env.DB_PASSWORD);
 
 app.use("/api/user", userRoutes);
+app.use("/", trackingRoutes);
 
 mongoose
   .connect(MONGO_URI)
