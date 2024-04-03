@@ -1,5 +1,4 @@
 const User = require("../models/userModel");
-const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const { generateKey } = require("../helpers/cryptography");
@@ -17,7 +16,7 @@ const loginUser = async (req, res) => {
     let { username, email } = user;
     res.status(200).json({ token, username, email });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(401).json({ error: error.message });
   }
 };
 

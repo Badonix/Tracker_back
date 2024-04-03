@@ -25,7 +25,7 @@ const userSchema = new Schema(
       unique: true,
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 userSchema.statics.signup = async function (email, username, password) {
@@ -86,7 +86,6 @@ userSchema.statics.login = async function (login, password) {
   } else {
     user = await this.findOne({ username: login });
   }
-  console.log(user);
   if (!user) {
     throw Error("Wrong Credentials");
   }
