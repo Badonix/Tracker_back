@@ -13,7 +13,6 @@ const userSchema = new Schema(
     },
     apiKey: {
       type: String,
-      unique: true,
     },
     password: {
       type: String,
@@ -25,10 +24,10 @@ const userSchema = new Schema(
       unique: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-userSchema.statics.signup = async function (email, username, password) {
+userSchema.statics.signup = async function(email, username, password) {
   if (!email || !password || !username) {
     throw Error("Fill in all fields");
   }
@@ -76,7 +75,7 @@ userSchema.statics.signup = async function (email, username, password) {
   return user;
 };
 
-userSchema.statics.login = async function (login, password) {
+userSchema.statics.login = async function(login, password) {
   if (!login || !password) {
     throw Error("Fill in all fields");
   }
