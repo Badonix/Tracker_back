@@ -38,6 +38,19 @@ const signupUser = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  try {
+    const { user: userId } = req;
+    let user = await User.findById(userId);
+    let userFiltered = {
+      username: user.username,
+      email: user.email,
+    };
+    return res.json({ userFiltered });
+  } catch (e) {
+    return res.status(401).json({ error: "You are unauthorized" });
+  }
+};
 const generateKeyForUser = async (req, res) => {
   try {
     let token = generateKey();
@@ -48,4 +61,4 @@ const generateKeyForUser = async (req, res) => {
   }
 };
 
-module.exports = { generateKeyForUser, signupUser, loginUser };
+module.exports = { getUser, generateKeyForUser, signupUser, loginUser };
