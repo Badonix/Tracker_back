@@ -5,7 +5,7 @@ const trackingSchema = new Schema({
   ip_address: {
     type: String,
   },
-  user: { type: Schema.Types.ObjectId, ref: "User" },
+  page: { type: Schema.Types.ObjectId, ref: "Page" },
   timestamp: { type: String },
 });
 

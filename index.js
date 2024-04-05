@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 const userRoutes = require("./routes/user.js");
 const trackingRoutes = require("./routes/tracking.js");
+const pageRoutes = require("./routes/page.js");
 const app = express();
 
 app.use(cors());
@@ -16,7 +17,7 @@ let MONGO_URI = process.env.DB_URL.replace(
 
 app.use("/api/user", userRoutes);
 app.use("/", trackingRoutes);
-
+app.use("/api/page", pageRoutes);
 mongoose
   .connect(MONGO_URI)
   .then(() => {
