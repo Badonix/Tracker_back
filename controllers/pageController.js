@@ -32,19 +32,18 @@ const getPages = async (req, res) => {
 };
 
 const getSinglePage = async (req, res) => {
-  const { token, domain } = req.body;
+  const { pageId } = req.body;
   let { user } = req;
   try {
-    if (!token || !domain) {
+    if (!pageId) {
       return res.status(400).json({ message: "Missing fields" });
     }
-    let page = await Page.findOne({ user, apiKey: token, domain });
+    let page = await Page.findOne({ user, _id: pageId });
     if (!page) {
       return res.status(404).json({ message: "No page found" });
     }
     return res.json({ page });
   } catch (e) {
-    console.log(e);
     return res.json({ e });
   }
 };

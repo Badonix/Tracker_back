@@ -10,5 +10,5 @@ const router = express.Router();
 
 router.post("/", requireAuth, createPage);
 router.get("/", requireAuth, getPages);
-router.get("/single", requireAuth, getSinglePage);
+router.post("/single", requireAuth, getSinglePage);
 module.exports = router;
