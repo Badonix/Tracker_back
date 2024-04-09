@@ -48,4 +48,18 @@ const getSinglePage = async (req, res) => {
   }
 };
 
-module.exports = { createPage, getSinglePage, getPages };
+const deletePage = async (req, res) => {
+  const { id } = req.params;
+  const { user } = req;
+  try {
+    let page = await Page.findOneAndDelete({ _id: id, user });
+    if (!page) {
+      return res.status(404).json({ message: "No page was found" });
+    }
+    return res.json({ message: "Deleted successfully" });
+  } catch (e) {
+    res.status(500).json({ error: "Unknown error" });
+  }
+};
+
+module.exports = { createPage, getSinglePage, getPages, deletePage };
