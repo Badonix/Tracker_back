@@ -6,7 +6,6 @@ const trackingSchema = new Schema({
     type: String,
   },
   page: { type: Schema.Types.ObjectId, ref: "Page" },
-  timestamp: { type: String },
 });
 
 module.exports = mongoose.model("Tracking", trackingSchema);
