@@ -4,7 +4,6 @@ const Tracking = require("../models/trackingModel");
 const recordVisit = async (req, res) => {
   let domain = req.get("host");
   //temp
-  domain = "badonix.netlify.app";
   //temp
   console.log(domain);
   const { apiKey, ip } = req.body;
@@ -13,15 +12,15 @@ const recordVisit = async (req, res) => {
     return res.status(403).json({ error: "Fill in all fields" });
   }
   try {
-    const page = Page.findOne({ apiKey });
+    const page = await Page.findOne({ apiKey });
     if (!page) {
       return res.status(404).json({ error: "Page not found" });
     }
-    console.log(page.domain, domain);
     if (domain != page.domain) {
       return res.status(404).json({ error: "Not valid domain" });
     }
-    if (user != page.user) {
+    console.log(user._id, page.user);
+    if (!page.user.equals(user._id)) {
       return res.status(401).json({ error: "Not authorized" });
     }
     // const newTracking = new Tracking({
