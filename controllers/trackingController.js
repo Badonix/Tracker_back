@@ -1,14 +1,11 @@
 const Page = require("../models/pageModel");
-const User = require("../models/userModel");
 const Tracking = require("../models/trackingModel");
+
 const recordVisit = async (req, res) => {
   let domain = req.get("host");
-  //temp
-  //temp
-  console.log(domain);
-  const { apiKey, ip } = req.body;
+  const { apiKey } = req.body;
   const { user } = req;
-  if (!apiKey || !ip) {
+  if (!apiKey) {
     return res.status(403).json({ error: "Fill in all fields" });
   }
   try {
@@ -19,17 +16,15 @@ const recordVisit = async (req, res) => {
     if (domain != page.domain) {
       return res.status(404).json({ error: "Not valid domain" });
     }
-    console.log(user._id, page.user);
     if (!page.user.equals(user._id)) {
       return res.status(401).json({ error: "Not authorized" });
     }
-    // const newTracking = new Tracking({
-    //   user: user._id,
-    //   ip_address: ip,
-    //   timestamp: time,
-    // });
-    // let savedTracking = await newTracking.save();
-    return res.json({ page });
+    const newTracking = new Tracking({
+      ip_address: req.clientIp,
+      page: page._id,
+    });
+    let savedTracking = await newTracking.save();
+    return res.json({ savedTracking });
   } catch (e) {
     console.log(e);
   }

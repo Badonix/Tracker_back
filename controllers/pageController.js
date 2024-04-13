@@ -1,4 +1,5 @@
 const { generateKey } = require("../helpers/cryptography");
+const Tracking = require("../models/trackingModel");
 const Page = require("../models/pageModel");
 
 const createPage = async (req, res) => {
@@ -48,6 +49,33 @@ const getSinglePage = async (req, res) => {
   }
 };
 
+const getPageTrackings = async (req, res) => {
+  const { pageId } = req.params;
+  let { user } = req;
+
+  try {
+    if (!pageId) {
+      return res.status(400).json({ message: "Missing fields" });
+    }
+    var page;
+    try {
+      page = await Page.findById(pageId);
+    } catch (e) {
+      console.log("No page found");
+    }
+    if (!page) {
+      return res.json({ message: "No page found" });
+    }
+
+    if (!page.user.equals(user._id)) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+    let pageTrackings = await Tracking.find({ page: pageId });
+    return res.json({ pageTrackings });
+  } catch (e) {
+    console.log(e);
+  }
+};
 const deletePage = async (req, res) => {
   const { id } = req.params;
   const { user } = req;
@@ -62,4 +90,10 @@ const deletePage = async (req, res) => {
   }
 };
 
-module.exports = { createPage, getSinglePage, getPages, deletePage };
+module.exports = {
+  createPage,
+  getPageTrackings,
+  getSinglePage,
+  getPages,
+  deletePage,
+};

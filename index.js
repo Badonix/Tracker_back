@@ -1,3 +1,4 @@
+const requestIp = require("request-ip");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -9,6 +10,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(requestIp.mw());
 
 let MONGO_URI = process.env.DB_URL.replace(
   "<username>",
