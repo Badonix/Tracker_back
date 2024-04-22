@@ -3,7 +3,12 @@ const Tracking = require("../models/trackingModel");
 
 const recordVisit = async (req, res) => {
   let domain = req.get("origin");
-  domain = domain.replace(/^https?:\/\//, "");
+  try {
+    domain = domain.replace(/^https?:\/\//, "");
+  } catch (e) {
+    console.log(e);
+    return res.status(381).json({ error: "AIRONOU" });
+  }
   const { apiKey } = req.body;
   if (!apiKey) {
     return res.status(403).json({ error: "Fill in all fields" });
