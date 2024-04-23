@@ -70,7 +70,9 @@ const getPageTrackings = async (req, res) => {
     if (!page.user.equals(user._id)) {
       return res.status(401).json({ message: "Not authorized" });
     }
-    let pageTrackings = await Tracking.find({ page: pageId });
+    let pageTrackings = await Tracking.find({ page: pageId }).sort({
+      createdAt: -1,
+    });
     return res.json({ pageTrackings });
   } catch (e) {
     console.log(e);
